@@ -1,9 +1,14 @@
 import { events } from './events';
 import './style.css';
 import './api-calls.js';
+import { curretWeatherTemplate } from './templates';
+import { render } from 'lit-html';
 
 const input = document.querySelector('header input');
 const button = document.querySelector('header .search-btn');
+const curretWeatherContainer = document.querySelector(
+  '.content #current-weather'
+);
 
 const requestWeather = () => {
   const location = input.value;
@@ -18,4 +23,6 @@ const requestWeather = () => {
 
 button.addEventListener('click', requestWeather);
 
-events.on('weatherDataReady', console.log);
+events.on('weatherDataReady', (data) => {
+  render(curretWeatherTemplate(data), curretWeatherContainer);
+});
