@@ -23,7 +23,15 @@ const getCurrentWeather = async ({ lat, lon }) => {
   return data;
 };
 
-const processData = (data) => {
+const getFiveDayForecast = async ({ lat, lon }) => {
+  const URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+
+  const response = await fetch(URL, { mode: 'cors' });
+  const data = await response.json();
+  return data;
+};
+
+const processCurrentWeather = (data) => {
   const {
     weather: [{ main, description, icon }],
     main: { temp, feels_like, humidity },
@@ -34,12 +42,22 @@ const processData = (data) => {
   return { main, description, icon, temp, feels_like, humidity, name, country };
 };
 
+const processFiveDayForecast = (data) => data.list;
+
 const getWeatherData = async ({ cityName, countryName }) => {
   let location = await getLocations(cityName, countryName);
   location = location[0];
   const coords = { lat: location.lat, lon: location.lon };
-  const curretWeather = await getCurrentWeather(coords);
-  events.emit('weatherDataReady', processData(curretWeather));
+
+  const weatherData = await Promise.all([
+    getCurrentWeather(coords),
+    getFiveDayForecast(coords),
+  ]);
+
+  const currentWeather = processCurrentWeather(weatherData[0]);
+  const fiveDayForecast = processFiveDayForecast(weatherData[1]);
+
+  events.emit('weatherDataReady', { currentWeather, fiveDayForecast });
 };
 
 events.on('userWeatherRequest', getWeatherData);

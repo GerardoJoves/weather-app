@@ -1,14 +1,13 @@
 import { events } from './events';
 import './style.css';
 import './api-calls.js';
-import { curretWeatherTemplate } from './templates';
+import { curretWeatherTemplate, fiveDayForecastTemplate } from './templates';
 import { render } from 'lit-html';
 
 const input = document.querySelector('header input');
 const button = document.querySelector('header .search-btn');
-const curretWeatherContainer = document.querySelector(
-  '.content #current-weather'
-);
+const curretWeatherContainer = document.querySelector('#current-weather');
+const fiveDayForecastContainer = document.querySelector('#five-day-forecast');
 
 const requestWeather = () => {
   const location = input.value;
@@ -23,6 +22,7 @@ const requestWeather = () => {
 
 button.addEventListener('click', requestWeather);
 
-events.on('weatherDataReady', (data) => {
-  render(curretWeatherTemplate(data), curretWeatherContainer);
+events.on('weatherDataReady', ({ currentWeather, fiveDayForecast }) => {
+  render(curretWeatherTemplate(currentWeather), curretWeatherContainer);
+  render(fiveDayForecastTemplate(fiveDayForecast), fiveDayForecastContainer);
 });
