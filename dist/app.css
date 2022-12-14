@@ -1,0 +1,260 @@
+html {
+  --main-light-color: rgb(255, 255, 255);
+  --main-color: #343a40;
+  --left-right-padding: min(8vw, 80px);
+  font-size: 14px;
+}
+
+body {
+  color: rgb(44, 44, 44);
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: var(--main-light-color);
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+header {
+  background-color: var(--main-color);
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  padding: 12px var(--left-right-padding);
+  min-height: 90px;
+  gap: 12px;
+}
+
+header .logo-container img {
+  max-width: 7rem;
+}
+
+header .searchbar-container {
+  display: flex;
+  width: min(100%, 600px);
+}
+
+header .searchbar-container input {
+  font-size: 1rem;
+  width: 0;
+  height: 40px;
+  padding: 10px 8px;
+  border: none;
+  border-radius: 4px 0 0 4px;
+  background-color: var(--main-light-color);
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+header .searchbar-container button {
+  border: none;
+  padding: 0 14px;
+  background-color: #eb6f4c;
+  color: white;
+  border-radius: 0 4px 4px 0;
+  font-size: 1rem;
+}
+
+header .searchbar-container input:focus {
+  border: none;
+  outline: none;
+}
+
+header button {
+  cursor: pointer;
+}
+
+header .units-switcher {
+  justify-self: right;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  height: 40px;
+  padding: 0 8px;
+  border-radius: 4px;
+  background-color: var(--main-light-color);
+  border: none;
+  width: 100%;
+}
+
+header .units-switcher .active {
+  font-weight: bold;
+}
+
+.loader-container {
+  display: none;
+}
+
+.loader-container.active {
+  display: initial;
+  position: absolute;
+  background-color: inherit;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  transform: translate(-50%, -50%);
+  border: 6px solid #e7e7e7;
+  border-radius: 50%;
+  border-top: 6px solid #3498db;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.content {
+  position: relative;
+  background-color: white;
+}
+
+.content > .weather {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  align-items: stretch;
+  row-gap: 30px;
+  column-gap: var(--left-right-padding);
+  text-align: center;
+  padding: min(10vh, 100px) var(--left-right-padding);
+}
+
+#current-weather > div:first-child{
+  width: max-content;
+}
+
+#current-weather .location {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+}
+
+#current-weather .location .city {
+  margin-bottom: 3px;
+}
+
+#current-weather .time {
+  font-size: .9rem;
+  margin-bottom: 18px;
+}
+
+#current-weather .weather {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+#current-weather img {
+  width: 7rem;
+}
+
+#current-weather .temp {
+  font-size: 2rem;
+}
+
+#five-day-forecast {
+  width: 100%;
+  padding: 30px 0;
+  overflow-x: scroll;
+  border-top: 1px solid rgb(213, 213, 213);
+}
+
+.cards-container {
+  display: flex;
+}
+
+.cards-container .card {
+  padding: 0 clamp(10px, 1.5vw, 30px);
+  font-size: 1rem;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.cards-container .card .time {
+  font-size: .9rem;
+  width: max-content;
+  margin-bottom: 8px;
+}
+
+.cards-container .card .description {
+  font-size: .9rem;
+}
+
+.cards-container .card img {
+  width: 5rem;
+  margin: 28px 0;
+}
+
+#details-container {
+  padding: min(6vh, 60px) var(--left-right-padding);
+  background-color: var(--main-color);
+  position: relative;
+}
+
+#details-container > .details > div {
+  padding: 18px 0;
+  border-bottom: 1px solid #2b3238;
+}
+
+#details-container > .details .title {
+  color:#8a97a4;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  font-size: .9rem;
+}
+
+#details-container > .details .value {
+  color: white;
+  font-size: 1.1rem;
+}
+
+@media only screen and (min-width: 600px) {
+  html {
+    font-size: 16px;
+  }
+
+  header {
+    grid-template-columns: 1fr 3fr 1.5fr;
+  }
+
+  header .logo-container {
+    justify-self: left;
+  }
+  
+
+  header .searchbar-container {
+    justify-self: start;
+  }
+
+  header .units-switcher {
+    width: min(100%, 200px);
+  }
+
+  .content > .weather {
+    grid-template-columns: 1fr 2fr;
+  }
+
+  #details-container > .details {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 22px;
+  }
+
+  #details-container > .details > div {
+    border-bottom: none;
+    text-align: center;
+  }
+}
