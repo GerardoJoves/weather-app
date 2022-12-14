@@ -16,18 +16,26 @@
       <button type="button" class="search-btn">Search</button>
     </div>
     <button class="units-switcher">
-      <span class="celsius">&#8451</span>
+      <span class="celsius active">&#8451</span>
       <span>/</span>
       <span class="fahrenheit">&#8457</span>
     </button>
   </header>
-  <main>
+
     <div class="content">
-      <div>
+      <div class="loader-container active">
+        <div class="loader"></div>
+      </div>
+      <div class="weather">
         <div id="current-weather"></div>
         <div id="five-day-forecast"></div>
       </div>
     </div>
-  </main>
+    <div id="details-container">
+      <div class="loader-container active">
+        <div class="loader"></div>
+      </div>
+    </div>
+
 </body>
 </html>

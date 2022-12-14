@@ -1,6 +1,7 @@
 html {
   --main-light-color: rgb(255, 255, 255);
   --main-color: #343a40;
+  --left-right-padding: min(8vw, 80px);
   font-size: 14px;
 }
 
@@ -10,6 +11,9 @@ body {
   padding: 0;
   font-family: sans-serif;
   background-color: var(--main-light-color);
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
 }
 
 * {
@@ -21,7 +25,7 @@ header {
   display: grid;
   justify-items: center;
   align-items: center;
-  padding: 12px 20px;
+  padding: 12px var(--left-right-padding);
   min-height: 90px;
   gap: 12px;
 }
@@ -66,7 +70,9 @@ header button {
 }
 
 header .units-switcher {
+  justify-self: right;
   font-size: 1rem;
+  letter-spacing: 1px;
   height: 40px;
   padding: 0 8px;
   border-radius: 4px;
@@ -75,39 +81,83 @@ header .units-switcher {
   width: 100%;
 }
 
-main .content > div:first-child {
-  margin-top: 30px;
+header .units-switcher .active {
+  font-weight: bold;
+}
+
+.loader-container {
+  display: none;
+}
+
+.loader-container.active {
+  display: initial;
+  position: absolute;
+  background-color: inherit;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  transform: translate(-50%, -50%);
+  border: 6px solid #e7e7e7;
+  border-radius: 50%;
+  border-top: 6px solid #3498db;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.content {
+  position: relative;
+  background-color: white;
+}
+
+.content > .weather {
   display: grid;
-  width: 100vw;
   grid-template-columns: 1fr;
   justify-items: center;
   align-items: stretch;
   row-gap: 30px;
-  column-gap: 30px;
+  column-gap: var(--left-right-padding);
   text-align: center;
-  padding: 0 20px;
+  padding: min(10vh, 100px) var(--left-right-padding);
 }
 
 #current-weather > div:first-child{
-  padding: 0 20px;
   width: max-content;
 }
 
-main #current-weather .location {
+#current-weather .location {
   font-size: 1.4rem;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
 }
 
-main #current-weather .location .city {
+#current-weather .location .city {
   margin-bottom: 3px;
 }
 
-main #current-weather .weather {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
+#current-weather .time {
+  font-size: .9rem;
+  margin-bottom: 18px;
 }
 
-main #current-weather img {
+#current-weather .weather {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+#current-weather img {
   width: 7rem;
 }
 
@@ -122,25 +172,53 @@ main #current-weather img {
   border-top: 1px solid rgb(213, 213, 213);
 }
 
-main .cards-container {
+.cards-container {
   display: flex;
 }
 
-main .cards-container .card {
+.cards-container .card {
   padding: 0 clamp(10px, 1.5vw, 30px);
   font-size: 1rem;
   letter-spacing: 1px;
   text-align: center;
 }
 
-main .cards-container .card .time {
+.cards-container .card .time {
   font-size: .9rem;
   width: max-content;
+  margin-bottom: 8px;
 }
 
-main .cards-container .card img {
+.cards-container .card .description {
+  font-size: .9rem;
+}
+
+.cards-container .card img {
   width: 5rem;
   margin: 28px 0;
+}
+
+#details-container {
+  padding: min(6vh, 60px) var(--left-right-padding);
+  background-color: var(--main-color);
+  position: relative;
+}
+
+#details-container > .details > div {
+  padding: 18px 0;
+  border-bottom: 1px solid #2b3238;
+}
+
+#details-container > .details .title {
+  color:#8a97a4;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  font-size: .9rem;
+}
+
+#details-container > .details .value {
+  color: white;
+  font-size: 1.1rem;
 }
 
 @media only screen and (min-width: 600px) {
@@ -152,6 +230,11 @@ main .cards-container .card img {
     grid-template-columns: 1fr 3fr 1.5fr;
   }
 
+  header .logo-container {
+    justify-self: left;
+  }
+  
+
   header .searchbar-container {
     justify-self: start;
   }
@@ -160,7 +243,18 @@ main .cards-container .card img {
     width: min(100%, 200px);
   }
 
-  main .content > div:first-child {
-    grid-template-columns: minmax(max-content, 1fr) 2fr;
+  .content > .weather {
+    grid-template-columns: 1fr 2fr;
+  }
+
+  #details-container > .details {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 22px;
+  }
+
+  #details-container > .details > div {
+    border-bottom: none;
+    text-align: center;
   }
 }
