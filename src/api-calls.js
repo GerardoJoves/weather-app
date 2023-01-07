@@ -8,7 +8,7 @@ let currentLocation = null;
 const getLocations = async (cityName, countryName) => {
   const countryISOCode = countryName ? countryToAlpha2(countryName) : null;
 
-  const URL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}${
+  const URL = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}${
     countryISOCode ? ',' + countryISOCode : ''
   }&appid=${apiKey}`;
 
